@@ -11,6 +11,8 @@ class Media extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'description', 'type', 'user_id'];
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_media');
