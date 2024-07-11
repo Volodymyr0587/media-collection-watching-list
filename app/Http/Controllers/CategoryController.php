@@ -24,7 +24,7 @@ class CategoryController extends Controller
         $user = auth()->user();
 
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:2|max:255',
         ]);
 
         $user->categories()->create($request->all());
@@ -45,7 +45,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:2|max:255',
         ]);
 
         $category->update($request->all());
