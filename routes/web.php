@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::name('categories.')->group(function () {
+        Route::get('/categories', [CategoryController::class, 'index'])->name('index');
         Route::get('/categories/create', [CategoryController::class, 'create'])->name('create');
         Route::post('/categories', [CategoryController::class, 'store'])->name('store');
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->can('editCategory', 'category')->name('edit');
@@ -27,6 +28,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::name('media.')->group(function () {
+        Route::get('/media', [MediaController::class, 'index'])->name('index');
         Route::get('/media/create', [MediaController::class, 'create'])->name('create');
         Route::post('/media', [MediaController::class, 'store'])->name('store');
         Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->can('edit', 'media')->name('edit');

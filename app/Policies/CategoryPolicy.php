@@ -13,6 +13,6 @@ class CategoryPolicy
      */
     public function editCategory(User $user, Category $category): bool
     {
-        return $category->user->is($user);
+        return $category->user()->is($user);
     }
 }

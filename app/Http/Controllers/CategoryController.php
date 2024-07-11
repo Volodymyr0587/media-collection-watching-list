@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = auth()->user()->categories()->get();
         return view('categories.index', compact('categories'));
     }
 
@@ -21,11 +21,13 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $user = auth()->user();
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
-        Category::create($request->all());
+        $user->categories()->create($request->all());
 
         return redirect()->route('categories.index')->with('success', 'Category created successfully.');
     }
