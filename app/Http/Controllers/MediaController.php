@@ -106,6 +106,7 @@ class MediaController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'categories' => 'array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
