@@ -13,8 +13,8 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $media = auth()->user()->media()->get();
-        return view('media.index', compact('media'));
+        $user_media = auth()->user()->media()->with('categories')->get();
+        return view('media.index', compact('user_media'));
     }
 
     /**
@@ -35,23 +35,27 @@ class MediaController extends Controller
 
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'type' => 'required|string',
+            'description' => 'nullable|string',
             'categories' => 'array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
+        $media = new Media([
+            'title' => $data['title'],
+            'description' => $data['description'],
+        ]);
+
         // Handle image upload if present
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('images', 'public');
+            $media->image = $request->file('image')->store('images', 'public');
         }
 
-        $media = new Media($data);
         $media->user()->associate($user);
+        $media->save();
+
         if ($request->categories) {
             $media->categories()->attach($request->categories);
         }
-
-        $media->save();
 
         return redirect()->route('media.index')->with('success', 'Media item created successfully.');
     }
