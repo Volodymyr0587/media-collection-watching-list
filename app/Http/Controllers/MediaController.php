@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Media;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
 {
@@ -84,20 +85,26 @@ class MediaController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'type' => 'required|string',
             'categories' => 'array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         // Handle image upload if present
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('images', 'public');
-        } else {
-            unset($data['image']);
+            if (isset($media->image)) {
+                Storage::disk('public')->delete($media->image);
+            }
+            $media->image = $request->file('image')->store('images', 'public');
         }
 
         $media->update($data);
-        $media->categories()->sync($request->categories);
+
+        // Handle category sync
+        if ($request->categories) {
+            $media->categories()->sync($request->categories);
+        } else {
+            $media->categories()->detach();
+        }
 
         return redirect()->route('media.index')->with('success', 'Media item updated successfully.');
     }
