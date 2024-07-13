@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/media', [MediaController::class, 'index'])->name('index');
         Route::get('/media/create', [MediaController::class, 'create'])->name('create');
         Route::post('/media', [MediaController::class, 'store'])->name('store');
+        Route::get('/media/{media}', [MediaController::class, 'show'])->name('show');
         Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->can('edit', 'media')->name('edit');
         Route::patch('/media/{media}', [MediaController::class, 'update'])->can('edit', 'media')->name('update');
         Route::delete('/media/{media}', [MediaController::class, 'destroy'])->can('edit', 'media')->name('destroy');
