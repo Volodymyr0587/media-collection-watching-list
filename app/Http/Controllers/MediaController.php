@@ -24,7 +24,8 @@ class MediaController extends Controller
             $user_media->filterByCategory($category_id);
         }
 
-        $user_media = $user_media->get();
+        // Paginate the results and append the current filter parameter
+        $user_media = $user_media->paginate(5)->appends($request->except('page'));
 
         // Fetch all categories for the dropdown
         $categories = Category::all();

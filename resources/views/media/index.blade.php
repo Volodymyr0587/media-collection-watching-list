@@ -88,6 +88,10 @@
                         </div>
                       </div>
                 </div>
+
+                <div class="m-4">
+                    {{ $user_media->links() }}
+                </div>
             </div>
         </div>
     </div>
