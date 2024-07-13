@@ -12,30 +12,24 @@ class MediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    // public function index()
-    // {
-    //     $user_media = auth()->user()->media()->with('categories')->get();
-    //     return view('media.index', compact('user_media'));
-    // }
 
     public function index(Request $request)
     {
         $user = auth()->user();
         $user_media = $user->media()->with('categories');
 
-        // Check if category_id is present in the request
+        // Apply filter by category using scope
         if ($request->has('category_id')) {
             $category_id = $request->category_id;
-
-            // Filter media by category_id
-            $user_media->whereHas('categories', function ($query) use ($category_id) {
-                $query->where('categories.id', $category_id);
-            });
+            $user_media->filterByCategory($category_id);
         }
 
         $user_media = $user_media->get();
 
-        return view('media.index', compact('user_media'));
+        // Fetch all categories for the dropdown
+        $categories = Category::all();
+
+        return view('media.index', compact('user_media', 'categories'));
     }
 
 
