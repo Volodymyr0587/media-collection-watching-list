@@ -56,7 +56,7 @@ class MediaController extends Controller
             'season' => 'nullable|integer|min:1',
             'series' => 'nullable|integer|min:1',
             'categories' => 'array',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240'
         ]);
 
         $media = new Media($data);
@@ -104,7 +104,7 @@ class MediaController extends Controller
             'season' => 'nullable|integer|min:1',
             'series' => 'nullable|integer|min:1',
             'categories' => 'array',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240'
         ]);
 
         // Handle image upload if present
