@@ -53,14 +53,13 @@ class MediaController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'season' => 'nullable|integer|min:1',
+            'series' => 'nullable|integer|min:1',
             'categories' => 'array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        $media = new Media([
-            'title' => $data['title'],
-            'description' => $data['description'],
-        ]);
+        $media = new Media($data);
 
         // Handle image upload if present
         if ($request->hasFile('image')) {
@@ -102,6 +101,8 @@ class MediaController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'season' => 'nullable|integer|min:1',
+            'series' => 'nullable|integer|min:1',
             'categories' => 'array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);

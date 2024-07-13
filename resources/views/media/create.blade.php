@@ -45,6 +45,34 @@
                                     </div>
 
                                     <div class="sm:col-span-4">
+                                        <label for="season" class="block text-sm font-medium leading-6 text-gray-900">Season number (You can leave it blank)</label>
+                                        <div class="mt-2">
+                                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                                <input type="number" name="season" id="season" autocomplete="season" value="{{ old('season') }}"
+                                                    class="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                    placeholder="1">
+                                            </div>
+                                            @error('season')
+                                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-4">
+                                        <label for="series" class="block text-sm font-medium leading-6 text-gray-900">Series number (You can leave it blank)</label>
+                                        <div class="mt-2">
+                                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                                <input type="number" name="series" id="series" autocomplete="series" value="{{ old('series') }}"
+                                                    class="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                    placeholder="1">
+                                            </div>
+                                            @error('series')
+                                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-4">
                                         <label for="image" class="block text-sm font-medium leading-6 text-gray-900">Image</label>
                                         <div class="mt-2">
                                             <input type="file" name="image" id="image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:border-indigo-600">

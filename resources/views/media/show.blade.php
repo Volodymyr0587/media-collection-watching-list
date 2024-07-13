@@ -17,10 +17,7 @@
                         </div>
 
                         <div class="p-6 w-full sm:w-2/3">
-                            {{-- <a href="{{ url()->previous() }}" class="space-x-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                <x-svg.back-button />
-                                Back
-                            </a> --}}
+
                             <a href="{{ url()->previous() }}" class="inline-flex items-center space-x-2 rounded-md px-3 py-2 text-sm font-semibold shadow-md hover:text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 <x-svg.back-button />
                                 <span>Back</span>
@@ -31,6 +28,19 @@
                                 <small>{{ $category->name }}</small>
                                 @endforeach
                             </p>
+
+                            @if ($media->season)
+                            <p class="my-4 text-base font-bold text-surface/75">
+                                <small>Season Number: {{ $media->season }}</small>
+                            </p>
+                            @endif
+
+                            @if ($media->series)
+                            <p class="my-4 text-base font-bold text-surface/75">
+                                <small>Series Number: {{ $media->series }}</small>
+                            </p>
+                            @endif
+
                             <h5 class="mb-2 text-xl font-medium leading-tight">
                                 {{ $media->title }}
                             </h5>
