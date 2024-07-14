@@ -76,7 +76,7 @@
                                     <div class="sm:col-span-4">
                                         <label for="image" class="block text-sm font-medium leading-6 text-gray-900">Image</label>
                                         <div class="mt-2">
-                                            <input type="file" name="image" id="image" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:border-indigo-600">
+                                            <input type="file" name="image" id="image" onchange="validateFileSize(this)" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:border-indigo-600">
                                             @error('image')
                                                 <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
                                             @enderror
@@ -112,4 +112,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function validateFileSize(input) {
+            const file = input.files[0];
+            if (file && file.size > 10 * 1024 * 1024) { // 10MB
+                alert('The file size exceeds the maximum limit of 10MB.');
+                input.value = ''; // Clear the input
+            }
+        }
+    </script>
+
 </x-app-layout>
