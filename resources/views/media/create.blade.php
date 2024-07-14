@@ -82,6 +82,16 @@
                                         </div>
                                     </div>
 
+                                    <div class="sm:col-span-4 flex items-center">
+                                        <label for="watched" class="block text-sm font-medium leading-6 text-gray-900">Watched</label>
+                                        <div class="ml-2">
+                                            <input type="checkbox" name="watched" id="watched" value="1" {{ old('watch', $media->watch ?? false) ? 'checked' : '' }} class="block">
+                                            @error('watched')
+                                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
                                     <div class="sm:col-span-4">
                                         <label for="categories" class="block text-sm font-medium leading-6 text-gray-900">Categories</label>
                                         <div class="mt-2">

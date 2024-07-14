@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('season')->nullable();
             $table->integer('series')->nullable();
             $table->string('image')->nullable();
+            $table->boolean('watched')->default(false);
             $table->timestamps();
         });
     }

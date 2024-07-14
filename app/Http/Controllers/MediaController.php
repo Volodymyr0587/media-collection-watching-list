@@ -56,7 +56,8 @@ class MediaController extends Controller
             'season' => 'nullable|integer|min:1',
             'series' => 'nullable|integer|min:1',
             'categories' => 'array',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'watched' => 'boolean',
         ]);
 
         $media = new Media($data);
@@ -104,7 +105,8 @@ class MediaController extends Controller
             'season' => 'nullable|integer|min:1',
             'series' => 'nullable|integer|min:1',
             'categories' => 'array',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'watched' => 'sometimes|boolean',
         ]);
 
         // Handle image upload if present
@@ -114,6 +116,9 @@ class MediaController extends Controller
             }
             $media->image = $request->file('image')->store('images', 'public');
         }
+
+        // Explicitly set 'watched' to false if not present in the request
+        $data['watched'] = $request->has('watched');
 
         $media->update($data);
 

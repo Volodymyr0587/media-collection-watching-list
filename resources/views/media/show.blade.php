@@ -41,6 +41,10 @@
                             </p>
                             @endif
 
+                            <p class="my-4 text-base font-bold text-surface/75">
+                                <small>Status: {{ $media->watched ? 'Watched' : 'Not Watched' }}</small>
+                            </p>
+
                             <h5 class="mb-2 text-xl font-medium leading-tight">
                                 {{ $media->title }}
                             </h5>
