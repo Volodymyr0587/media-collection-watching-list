@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('media.')->group(function () {
         Route::get('/media', [MediaController::class, 'index'])->name('index');
+        Route::get('/watched-media', [MediaController::class, 'getWatched'])->name('watched');
         Route::get('/media/create', [MediaController::class, 'create'])->name('create');
         Route::post('/media', [MediaController::class, 'store'])->name('store');
         Route::get('/media/{media}', [MediaController::class, 'show'])->name('show');

@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
                         {{ __('Media') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('media.watched')" :active="request()->routeIs('media.watched')">
+                        {{ __('Watched') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
                         {{ __('Categories') }}
                     </x-nav-link>
@@ -78,6 +81,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
                 {{ __('Media') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('media.watched')" :active="request()->routeIs('media.watched')">
+                {{ __('Watched') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
                 {{ __('Categories') }}

@@ -16,7 +16,7 @@ class MediaController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $user_media = $user->media()->with('categories');
+        $user_media = $user->media()->where('watched', false)->with('categories');
 
         // Apply filter by category using scope
         if ($request->has('category_id')) {
@@ -31,6 +31,27 @@ class MediaController extends Controller
         $categories = Category::all();
 
         return view('media.index', compact('user_media', 'categories'));
+    }
+
+
+    public function getWatched(Request $request)
+    {
+        $user = auth()->user();
+        $user_media = $user->media()->where('watched', true)->with('categories');
+
+        // Apply filter by category using scope
+        if ($request->has('category_id')) {
+            $category_id = $request->category_id;
+            $user_media->filterByCategory($category_id);
+        }
+
+        // Paginate the results and append the current filter parameter
+        $user_media = $user_media->paginate(5)->appends($request->except('page'));
+
+        // Fetch all categories for the dropdown
+        $categories = Category::all();
+
+        return view('media.watched', compact('user_media', 'categories'));
     }
 
 
