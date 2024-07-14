@@ -158,8 +158,10 @@ class MediaController extends Controller
      */
     public function destroy(Media $media)
     {
+        $route = $media->watched ? 'media.watched' : 'media.index';
+
         $media->delete();
 
-        return redirect()->route('media.index')->with('success', 'Media deleted successfully.');
+        return redirect()->route($route)->with('success', 'Media deleted successfully.');
     }
 }
