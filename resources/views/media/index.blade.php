@@ -58,7 +58,7 @@
                                             <img class="h-50 w-20" src="{{ $media->image ? asset('storage/' . $media->image) : asset('storage/images/media.jpg') }}" alt="">
                                         </td>
                                         <td class="whitespace-nowrap px-6 py-4">
-                                            <a class="text-blue-500 hover:underline hover:font-bold" href="{{ route('media.show', $media) }}">{{ $media->title }}</a>
+                                            <a class="text-indigo-500 font-bold hover:underline hover:text-indigo-800" href="{{ route('media.show', $media) }}">{{ $media->title }}</a>
                                         </td>
                                         <td class="whitespace-nowrap px-6 py-4">
                                             @foreach ($media->categories as $category)
