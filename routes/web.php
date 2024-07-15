@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/watched-media', [MediaController::class, 'getWatched'])->name('watched');
         Route::get('/media/create', [MediaController::class, 'create'])->name('create');
         Route::post('/media', [MediaController::class, 'store'])->name('store');
+        Route::get('/search', SearchController::class)->name('search');
         Route::get('/media/{media}', [MediaController::class, 'show'])->name('show');
         Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->can('edit', 'media')->name('edit');
         Route::patch('/media/{media}', [MediaController::class, 'update'])->can('edit', 'media')->name('update');
