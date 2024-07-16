@@ -22,6 +22,7 @@ class SearchController extends Controller
             [
                 'title',
                 'description',
+                'origin_title',
             ],
             'LIKE',
             "%$search%"

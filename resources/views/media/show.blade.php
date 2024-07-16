@@ -48,6 +48,11 @@
                             <h5 class="mb-2 text-xl font-medium leading-tight">
                                 {{ $media->title }}
                             </h5>
+
+                            <h5 class="mb-4 text-lg font-medium italic leading-tight">
+                                {{ $media->origin_title }}
+                            </h5>
+
                             <p class="mb-4 text-base">
                                 {{ $media->description }}
                             </p>

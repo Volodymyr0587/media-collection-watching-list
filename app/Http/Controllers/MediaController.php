@@ -73,6 +73,7 @@ class MediaController extends Controller
 
         $data = $request->validate([
             'title' => 'required|string|max:255',
+            'origin_title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'season' => 'nullable|integer|min:1',
             'series' => 'nullable|integer|min:1',
@@ -122,6 +123,7 @@ class MediaController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
+            'origin_title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'season' => 'nullable|integer|min:1',
             'series' => 'nullable|integer|min:1',
