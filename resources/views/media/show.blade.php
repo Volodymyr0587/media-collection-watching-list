@@ -29,6 +29,18 @@
                                 @endforeach
                             </p>
 
+                            @if ($media->year)
+                            <p class="my-4 text-base font-bold text-surface/75">
+                                <small>Year: {{ $media->year }}</small>
+                            </p>
+                            @endif
+
+                            @if ($media->year)
+                            <p class="my-4 text-base font-bold text-surface/75">
+                                <small>Country: {{ $media->country }}</small>
+                            </p>
+                            @endif
+
                             @if ($media->season)
                             <p class="my-4 text-base font-bold text-surface/75">
                                 <small>Season Number: {{ $media->season }}</small>

@@ -74,6 +74,8 @@ class MediaController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'origin_title' => 'nullable|string|max:255',
+            'year' => 'nullable|numeric|min:1888',
+            'country' => 'nullable|string|min:1|max:100',
             'description' => 'nullable|string',
             'season' => 'nullable|integer|min:1',
             'series' => 'nullable|integer|min:1',
@@ -124,6 +126,8 @@ class MediaController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'origin_title' => 'nullable|string|max:255',
+            'year' => 'nullable|numeric|min:1888',
+            'country' => 'nullable|string|min:1|max:100',
             'description' => 'nullable|string',
             'season' => 'nullable|integer|min:1',
             'series' => 'nullable|integer|min:1',
@@ -152,7 +156,9 @@ class MediaController extends Controller
             $media->categories()->detach();
         }
 
-        return redirect()->route('media.index')->with('success', 'Media item updated successfully.');
+        $route = $media->watched ? 'media.watched' : 'media.index';
+
+        return redirect()->route($route)->with('success', 'Media item updated successfully.');
     }
 
     /**

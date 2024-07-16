@@ -37,7 +37,7 @@
                                         <td class="whitespace-nowrap px-6 py-4 flex items-center gap-2">
                                             <a href="{{ route("categories.edit", $category) }}" class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Edit</a>
                                             @can('editCategory', $category)
-                                            <form action="{{ route('categories.destroy', $category) }}">
+                                            <form action="{{ route('categories.destroy', $category) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" onclick="return confirm('Are you sure you want to delete this category?');"
