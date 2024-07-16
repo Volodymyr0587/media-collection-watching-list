@@ -9,16 +9,23 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
-                <div class="p-6 flex justify-between items-center">
+                <div class="p-6 flex flex-col lg:flex-row justify-between items-center">
                     @auth
-                    <a href="{{ route('media.create') }}"
-                    class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ __('Create Media') }}</a>
+                    <div class="mb-4 lg:mb-0">
+                        <a href="{{ route('media.create') }}"
+                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ __('Create Media') }}</a>
+                    </div>
                     @endauth
 
-                    <form action="{{ route('media.search') }}" method="GET">
-                        <input type="text" name="search" id="search" placeholder="Search..." class="px-4 py-1.5 border rounded" />
-                        <button type="submit" class="ml-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search</button>
-                    </form>
+                   <div class="mb-4 lg:mb-0">
+                        <form action="{{ route('media.search') }}" method="GET">
+                            <input type="text" name="search" id="search" placeholder="Search..." class="px-4 py-1.5 border rounded" />
+                            <button type="submit" class="ml-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search</button>
+                        </form>
+                        @error("search")
+                            <p class="text-red-500 text-sm font-bold">{{ $message }}</p>
+                        @enderror
+                   </div>
 
                     <div class="mr-2 relative" x-data="{ open: false, selected: '{{ request('category_id') ? $categories->firstWhere('id', request('category_id'))->name : 'All Categories' }}' }">
                         <label for="category_id" class="sr-only">Filter by Category:</label>
