@@ -48,6 +48,34 @@
                                     </div>
 
                                     <div class="sm:col-span-4">
+                                        <label for="year" class="block text-sm font-medium leading-6 text-gray-900">Year (optional)</label>
+                                        <div class="mt-2">
+                                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                                <input type="number" name="year" id="year" autocomplete="year" value="{{ $media->year }}"
+                                                    class="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                >
+                                            </div>
+                                            @error('year')
+                                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-4">
+                                        <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Country (optional)</label>
+                                        <div class="mt-2">
+                                            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                                <input type="text" name="country" id="country" autocomplete="country" value="{{ $media->country }}"
+                                                    class="block flex-1 border-0 bg-transparent py-1.5 pl-2 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                    placeholder="Japan">
+                                            </div>
+                                            @error('country')
+                                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="sm:col-span-4">
                                         <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                         <div class="mt-2">
                                             <textarea name="description" id="description" rows="4"
