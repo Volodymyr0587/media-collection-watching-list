@@ -28,7 +28,7 @@ class MediaController extends Controller
         $user_media = $user_media->paginate(5)->appends($request->except('page'));
 
         // Fetch all categories for the dropdown
-        $categories = Category::all();
+        $categories = $user->categories()->get();
 
         return view('media.index', compact('user_media', 'categories'));
     }
@@ -49,7 +49,7 @@ class MediaController extends Controller
         $user_media = $user_media->paginate(5)->appends($request->except('page'));
 
         // Fetch all categories for the dropdown
-        $categories = Category::all();
+        $categories = $user->categories()->get();
 
         return view('media.watched', compact('user_media', 'categories'));
     }
@@ -60,7 +60,7 @@ class MediaController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = auth()->user()->categories()->get();
         return view('media.create', compact('categories'));
     }
 
@@ -114,7 +114,7 @@ class MediaController extends Controller
      */
     public function edit(Media $media)
     {
-        $categories = Category::all();
+        $categories = auth()->user()->categories()->get();
         return view('media.edit', compact('media', 'categories'));
     }
 
