@@ -13,7 +13,7 @@ class Media extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'origin_title', 'year', 'country', 'description', 'season', 'series', 'user_id', 'watched', 'watched_episodes'];
+    protected $fillable = ['title', 'origin_title', 'year', 'country', 'description', 'season', 'series', 'image', 'user_id', 'watched', 'watched_episodes'];
 
     public function categories(): BelongsToMany
     {
