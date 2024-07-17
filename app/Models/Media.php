@@ -39,7 +39,8 @@ class Media extends Model
 
     public function isSeries()
     {
-        return $this->categories()->where('name', 'Serials')->exists();
+        // return $this->categories()->where('name', 'Serials')->exists();
+        return $this->season || $this->series;
     }
 
     protected static function boot()
