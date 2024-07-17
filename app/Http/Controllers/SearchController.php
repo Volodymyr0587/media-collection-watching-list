@@ -18,7 +18,7 @@ class SearchController extends Controller
 
         $search = $request->input('search');
 
-        $results = Media::whereAny(
+        $results = auth()->user()->media()->whereAny(
             [
                 'title',
                 'description',
