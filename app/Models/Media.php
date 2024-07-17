@@ -13,7 +13,7 @@ class Media extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'origin_title', 'year', 'country', 'description', 'season', 'series', 'user_id', 'watched'];
+    protected $fillable = ['title', 'origin_title', 'year', 'country', 'description', 'season', 'series', 'user_id', 'watched', 'watched_episodes'];
 
     public function categories(): BelongsToMany
     {
@@ -37,6 +37,11 @@ class Media extends Model
         return $query;
     }
 
+    public function isSeries()
+    {
+        return $this->categories()->where('name', 'Serials')->exists();
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -47,4 +52,9 @@ class Media extends Model
             }
         });
     }
+
+    protected $casts = [
+        'watched_episodes' => 'array',
+    ];
+
 }

@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/media/{media}', [MediaController::class, 'show'])->name('show');
         Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->can('edit', 'media')->name('edit');
         Route::patch('/media/{media}', [MediaController::class, 'update'])->can('edit', 'media')->name('update');
+        Route::patch('/media/{media}/update-episodes', [MediaController::class, 'updateEpisodes'])->name('updateEpisodes');
         Route::delete('/media/{media}', [MediaController::class, 'destroy'])->can('edit', 'media')->name('destroy');
     });
 });

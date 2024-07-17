@@ -161,6 +161,20 @@ class MediaController extends Controller
         return redirect()->route($route)->with('success', 'Media item updated successfully.');
     }
 
+    public function updateEpisodes(Request $request, Media $media)
+    {
+        $data = $request->validate([
+            'episodes' => 'array',
+            'episodes.*' => 'integer|min:1',
+        ]);
+
+        $media->watched_episodes = $data['episodes'] ?? [];
+        $media->save();
+
+        return redirect()->route('media.show', $media->id)->with('success', 'Episodes updated successfully.');
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */
