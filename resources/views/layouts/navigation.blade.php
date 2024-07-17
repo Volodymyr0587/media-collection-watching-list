@@ -16,13 +16,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
-                        {{ __('Media') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ App\Models\Media::where('watched', false)->count() }}</span>
+                        {{ __('Media') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ auth()->user()->media()->where('watched', false)->count() }}</span>
                     </x-nav-link>
                     <x-nav-link :href="route('media.watched')" :active="request()->routeIs('media.watched')">
-                        {{ __('Watched') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ App\Models\Media::where('watched', true)->count() }}</span>
+                        {{ __('Watched') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ auth()->user()->media()->where('watched', true)->count() }}</span>
                     </x-nav-link>
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
-                        {{ __('Categories') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ App\Models\Category::count() }}</span>
+                        {{ __('Categories') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ auth()->user()->categories()->count() }}</span>
                     </x-nav-link>
                 </div>
             </div>
@@ -80,13 +80,13 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
-                {{ __('Media') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ App\Models\Media::where('watched', false)->count() }}</span>
+                {{ __('Media') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{  auth()->user()->media()->where('watched', false)->count() }}</span>
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('media.watched')" :active="request()->routeIs('media.watched')">
-                {{ __('Watched') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ App\Models\Media::where('watched', true)->count() }}</span>
+                {{ __('Watched') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ auth()->user()->media()->where('watched', true)->count() }}</span>
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
-                {{ __('Categories') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ App\Models\Category::count() }}</span>
+                {{ __('Categories') }} <span class="ml-2 px-2 rounded-md text-white bg-indigo-500">{{ auth()->user()->categories()->count() }}</span>
             </x-responsive-nav-link>
         </div>
 
