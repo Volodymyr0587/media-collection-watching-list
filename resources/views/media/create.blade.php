@@ -124,6 +124,16 @@
                                         </div>
                                     </div>
 
+                                    <div class="sm:col-span-4">
+                                        <label for="additional_images" class="block text-sm font-medium leading-6 text-gray-900">Additional Images</label>
+                                        <div class="mt-2">
+                                            <input type="file" name="additional_images[]" id="additional_images" multiple onchange="validateFileSize(this)" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:border-indigo-600">
+                                            @error('additional_images')
+                                                <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
                                     <div class="sm:col-span-4 flex items-center">
                                         <label for="watched" class="block text-sm font-medium leading-6 text-gray-900">Watched</label>
                                         <div class="ml-2">
@@ -173,6 +183,13 @@
                 input.value = ''; // Clear the input
             }
         }
+
+        document.getElementById('additional_images').addEventListener('change', function() {
+            if (this.files.length > 6) {
+                alert('You can upload a maximum of 6 images.');
+                this.value = ''; // Reset the input
+            }
+        });
     </script>
 
 </x-app-layout>

@@ -18,7 +18,8 @@
                         </div>
 
                         <div class="px-6 mt-6 sm:mt-0 w-full sm:w-2/3 flex flex-col">
-                            <a href="{{ url()->previous() }}" class="inline-flex w-1/3 items-center space-x-2 rounded-md px-3 py-2 text-sm font-semibold shadow-md hover:text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            <a href="{{ url()->previous() }}"
+                                class="inline-flex w-1/3 items-center space-x-2 rounded-md px-3 py-2 text-sm font-semibold shadow-md hover:text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 <x-svg.back-button />
                                 <span>Back</span>
                             </a>
@@ -75,6 +76,50 @@
                         <div class="mb-2">
                             {{ $media->description }}
                         </div>
+
+                        <!-- Display Additional Images -->
+                        {{-- @if ($media->images && $media->images->count() > 0)
+                        <h2 class="my-4 font-bold text-xl">Additional Images</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @foreach ($media->images as $image)
+                            <div class="relative overflow-hidden bg-cover bg-no-repeat h-48">
+                                <img class="rounded-lg w-full h-full object-cover"
+                                    src="{{ asset('storage/' . $image->path) }}" alt="">
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif --}}
+
+                        {{-- Images viewer --}}
+                        <div x-data="{ bigImage: '{{ isset($media->images) && $media->images->count() > 0 ? asset('storage/' . $media->images->first()->path) : '' }}' }"
+                            class="grid gap-4 p-4">
+                            @if ($media->images && $media->images->count() > 0)
+                            <div>
+                                <img :src="bigImage"
+                                    class="h-auto w-full max-w-full rounded-lg object-cover object-center md:h-[480px]"
+                                    alt="Big Image" />
+                            </div>
+
+                            <div class="grid grid-cols-5 gap-4">
+                                @foreach ($media->images as $image)
+                                <div>
+                                    <img @click="bigImage = '{{ asset('storage/' . $image->path) }}'"
+                                        src="{{ asset('storage/' . $image->path) }}"
+                                        class="object-cover object-center h-20 max-w-full rounded-lg cursor-pointer"
+                                        alt="gallery-image" />
+                                </div>
+                                @endforeach
+                            </div>
+                            @else
+                            <div class="text-center">
+                                <p>No images available for this media.</p>
+                            </div>
+                            @endif
+                        </div>
+                        {{-- END Images viewer --}}
+
+
+
                     </div>
 
                     @if ($media->isSeries())
@@ -84,24 +129,30 @@
                         @method('PATCH')
                         <div class="mb-4 ml-4 flex flex-wrap">
 
-                        <!-- Select All Checkbox -->
-                        <div class="w-full p-2">
-                            <input type="checkbox" id="select-all" class="relative float-left -ms-[1.5rem] me-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-secondary-500 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-checkbox before:shadow-transparent before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ms-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-black/60 focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-black/60 focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-checkbox checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ms-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent rtl:float-right dark:border-neutral-400 dark:checked:border-primary dark:checked:bg-primary">
-                            <label for="select-all" class="inline-block ps-[0.15rem] hover:cursor-pointer">Select All Episodes</label>
-                        </div>
-
-                        <!-- Individual Episode Checkboxes -->
-                        @for ($i = 1; $i <= $media->series; $i++)
-                            <div class="w-1/2 sm:w-1/4 lg:w-1/6 p-2">
-                                <input type="checkbox" id="episode{{ $i }}" name="episodes[]" value="{{ $i }}"
-                                class="relative float-left -ms-[1.5rem] me-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-secondary-500 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-checkbox before:shadow-transparent before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ms-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-black/60 focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-black/60 focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-checkbox checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ms-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent rtl:float-right dark:border-neutral-400 dark:checked:border-primary dark:checked:bg-primary"
-                                {{ in_array($i, old('episodes', $media->watched_episodes ?? [])) ? 'checked' : '' }}>
-                                <label for="episode{{ $i }}" class="inline-block ps-[0.15rem] hover:cursor-pointer">Episode {{ $i }}</label>
+                            <!-- Select All Checkbox -->
+                            <div class="w-full p-2">
+                                <input type="checkbox" id="select-all"
+                                    class="relative float-left -ms-[1.5rem] me-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-secondary-500 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-checkbox before:shadow-transparent before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ms-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-black/60 focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-black/60 focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-checkbox checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ms-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent rtl:float-right dark:border-neutral-400 dark:checked:border-primary dark:checked:bg-primary">
+                                <label for="select-all" class="inline-block ps-[0.15rem] hover:cursor-pointer">Select
+                                    All Episodes</label>
                             </div>
-                        @endfor
+
+                            <!-- Individual Episode Checkboxes -->
+                            @for ($i = 1; $i <= $media->series; $i++)
+                                <div class="w-1/2 sm:w-1/4 lg:w-1/6 p-2">
+                                    <input type="checkbox" id="episode{{ $i }}" name="episodes[]" value="{{ $i }}"
+                                        class="relative float-left -ms-[1.5rem] me-[6px] mt-[0.15rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-secondary-500 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-checkbox before:shadow-transparent before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ms-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-black/60 focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-black/60 focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-checkbox checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ms-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent rtl:float-right dark:border-neutral-400 dark:checked:border-primary dark:checked:bg-primary"
+                                        {{ in_array($i, old('episodes', $media->watched_episodes ?? [])) ? 'checked' :
+                                    '' }}>
+                                    <label for="episode{{ $i }}"
+                                        class="inline-block ps-[0.15rem] hover:cursor-pointer">Episode {{ $i }}</label>
+                                </div>
+                                @endfor
                         </div>
                         <div class="flex justify-end">
-                        <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Update Episodes</button>
+                            <button type="submit"
+                                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Update
+                                Episodes</button>
                         </div>
                     </form>
                     @endif

@@ -82,6 +82,7 @@ class MediaController extends Controller
             'series' => 'nullable|integer|min:1',
             'categories' => 'array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // validate additional images
             'watched' => 'boolean',
         ]);
 
@@ -102,6 +103,14 @@ class MediaController extends Controller
         // Attach categories if provided
         if ($request->categories) {
             $media->categories()->attach($request->categories);
+        }
+
+        // Handle additional images upload
+        if ($request->hasFile('additional_images')) {
+            foreach ($request->file('additional_images') as $file) {
+                $path = $file->store('images/' . $media->id, 'public');
+                $media->images()->create(['path' => $path]);
+            }
         }
 
         return redirect()->route('media.index')->with('success', 'Media item created successfully.');
@@ -139,6 +148,7 @@ class MediaController extends Controller
             'series' => 'nullable|integer|min:1',
             'categories' => 'array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
+            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // validate additional images
             'watched' => 'sometimes|boolean',
         ]);
 
@@ -166,6 +176,14 @@ class MediaController extends Controller
             $media->categories()->detach();
         }
 
+        // Handle additional images upload
+        if ($request->hasFile('additional_images')) {
+            foreach ($request->file('additional_images') as $file) {
+                $path = $file->store('images/' . $media->id, 'public');
+                $media->images()->create(['path' => $path]);
+            }
+        }
+
         $route = $media->watched ? 'media.watched' : 'media.index';
 
         return redirect()->route($route)->with('success', 'Media item updated successfully.');
@@ -191,6 +209,19 @@ class MediaController extends Controller
     public function destroy(Media $media)
     {
         $route = $media->watched ? 'media.watched' : 'media.index';
+
+        // Delete associated images
+        foreach ($media->images as $image) {
+            if (Storage::disk('public')->exists($image->path)) {
+                Storage::delete('public/' . $image->path);
+            }
+        }
+
+        // Delete the directory if it is empty
+        $directory = 'images/' . $media->id;
+        if (Storage::disk('public')->exists($directory) && Storage::disk('public')->allFiles($directory) == []) {
+            Storage::disk('public')->deleteDirectory($directory);
+        }
 
         $media->delete();
 

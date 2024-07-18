@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +24,11 @@ class Media extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(MediaImage::class);
     }
 
     // Define scope for filtering by category
@@ -48,7 +54,7 @@ class Media extends Model
         parent::boot();
 
         static::deleting(function ($media) {
-            if ($media->image) {
+            if ($media->image && Storage::disk('public')->exists($media->image)) {
                 Storage::disk('public')->delete($media->image);
             }
         });
