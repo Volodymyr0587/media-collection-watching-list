@@ -92,7 +92,7 @@
 
                         {{-- Images viewer --}}
                         <div x-data="{ bigImage: '{{ isset($media->images) && $media->images->count() > 0 ? asset('storage/' . $media->images->first()->path) : '' }}' }"
-                            class="grid gap-4 p-4">
+                            class="grid gap-4">
                             @if ($media->images && $media->images->count() > 0)
                             <div>
                                 <img :src="bigImage"
@@ -100,7 +100,7 @@
                                     alt="Big Image" />
                             </div>
 
-                            <div class="grid grid-cols-5 gap-4">
+                            <div class="grid grid-cols-6 gap-4">
                                 @foreach ($media->images as $image)
                                 <div>
                                     <img @click="bigImage = '{{ asset('storage/' . $image->path) }}'"
