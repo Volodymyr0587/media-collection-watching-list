@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Media;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
@@ -84,16 +85,21 @@ class MediaController extends Controller
             'watched' => 'boolean',
         ]);
 
+        // Create new Media instance with validated data
         $media = new Media($data);
 
-        // Handle image upload if present
+        // Handle single image upload if present
         if ($request->hasFile('image')) {
             $media->image = $request->file('image')->store('images', 'public');
         }
 
+        // Associate the media with the user
         $media->user()->associate($user);
+
+        // Save the media instance first to get the media ID
         $media->save();
 
+        // Attach categories if provided
         if ($request->categories) {
             $media->categories()->attach($request->categories);
         }
@@ -139,9 +145,13 @@ class MediaController extends Controller
         // Handle image upload if present
         if ($request->hasFile('image')) {
             if (isset($media->image)) {
-                Storage::disk('public')->delete($media->image);
+                // Check if the file exists before attempting to delete it
+                if (Storage::disk('public')->exists($media->image)) {
+                    // Attempt to delete the file
+                    Storage::delete('public/' . $media->image);
+                }
             }
-            $media->image = $request->file('image')->store('images', 'public');
+            $data['image'] = $request->file('image')->store('images', 'public');
         }
 
         // Explicitly set 'watched' to false if not present in the request
