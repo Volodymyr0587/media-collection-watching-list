@@ -135,7 +135,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="sm:col-span-4">
+                                    {{-- <div class="sm:col-span-4">
                                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                             @foreach($media->images as $image)
                                                 <div class="relative">
@@ -144,6 +144,51 @@
                                                         <input type="checkbox" name="delete_images[]" value="{{ $image->id }}">
                                                         Delete
                                                     </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div> --}}
+
+                                    <div class="sm:col-span-4">
+                                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                            @foreach($media->images as $image)
+                                                <div class="relative" x-data="{ isModalOpen: false }">
+                                                    <img
+                                                        src="{{ asset('storage/' . $image->path) }}"
+                                                        alt="Additional Image"
+                                                        class="w-full h-auto transition duration-300 ease-in-out hover:scale-150 cursor-pointer"
+                                                        @click="isModalOpen = true"
+                                                    >
+
+                                                    <label class="absolute top-0 right-0 bg-white bg-opacity-75 p-1">
+                                                        <input type="checkbox" name="delete_images[]" value="{{ $image->id }}">
+                                                        Delete
+                                                    </label>
+
+                                                    <!-- Modal -->
+                                                    <div
+                                                        x-show="isModalOpen"
+                                                        class="fixed inset-0 flex items-center justify-center z-50"
+                                                        style="background-color: rgba(0, 0, 0, 0.5);"
+                                                        @click.away="isModalOpen = false"
+                                                    >
+                                                        <div class="relative max-w-4xl p-10">
+                                                            <img
+                                                                src="{{ asset('storage/' . $image->path) }}"
+                                                                alt="Modal Image"
+                                                                class="w-full h-auto"
+                                                            >
+
+                                                            <!-- Close button -->
+                                                            <button type="button"
+                                                                class="absolute -top-7 -right-2  text-8xl font-bold  align-center cursor-pointer alert-del  text-white hover:text-blue-800"
+                                                                @click="isModalOpen = false; $event.stopPropagation()"
+                                                            >
+                                                                &times;
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End of Modal -->
                                                 </div>
                                             @endforeach
                                         </div>
