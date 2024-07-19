@@ -135,6 +135,20 @@
                                         </div>
                                     </div>
 
+                                    <div class="sm:col-span-4">
+                                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                            @foreach($media->images as $image)
+                                                <div class="relative">
+                                                    <img src="{{ asset('storage/' . $image->path) }}" alt="Additional Image" class="w-full h-auto transition duration-300 ease-in-out hover:scale-150">
+                                                    <label class="absolute top-0 right-0 bg-white bg-opacity-75 p-1">
+                                                        <input type="checkbox" name="delete_images[]" value="{{ $image->id }}">
+                                                        Delete
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
                                     <div class="sm:col-span-4 flex items-center">
                                         <label for="watched" class="block text-sm font-medium leading-6 text-gray-900">Watched</label>
                                         <div class="ml-2">

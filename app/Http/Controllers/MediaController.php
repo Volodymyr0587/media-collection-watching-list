@@ -150,6 +150,8 @@ class MediaController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:10240',
             'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // validate additional images
             'watched' => 'sometimes|boolean',
+            'delete_images' => 'array',
+            'delete_images.*' => 'integer|exists:media_images,id',
         ]);
 
         // Handle image upload if present
@@ -174,6 +176,19 @@ class MediaController extends Controller
             $media->categories()->sync($request->categories);
         } else {
             $media->categories()->detach();
+        }
+
+        // Handle deletion of selected additional images
+        if ($request->has('delete_images')) {
+            foreach ($request->delete_images as $imageId) {
+                $image = $media->images()->find($imageId);
+                if ($image) {
+                    if (Storage::disk('public')->exists($image->path)) {
+                        Storage::delete('public/' . $image->path);
+                    }
+                    $image->delete();
+                }
+            }
         }
 
         // Handle additional images upload
