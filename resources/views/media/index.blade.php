@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Media') }}
+        <h2 x-data="textSlideshow()" x-init="startSlideshow()" class="font-semibold text-xl text-gray-800 leading-tight">
+            <span class="ml-4" x-text="currentText"></span> {{ __('Media') }}
         </h2>
     </x-slot>
 
@@ -112,4 +112,22 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        function textSlideshow() {
+            return {
+                texts: ['Create', 'Edit', 'Delete', 'Enjoy'],
+                currentIndex: 0,
+                currentText: '',
+                startSlideshow() {
+                    this.currentText = this.texts[this.currentIndex];
+                    setInterval(() => {
+                        this.currentIndex = (this.currentIndex + 1) % this.texts.length;
+                        this.currentText = this.texts[this.currentIndex];
+                    }, 5000); // змінює текст кожні 5 секунд
+                }
+            }
+        }
+    </script>
 </x-app-layout>
