@@ -80,7 +80,7 @@
                                                 <a href="{{ route('media.index', ['category_id' => $category->id]) }}" class="p-2 bg-amber-300 rounded-full">{{ $category->name }}</a>
                                             @endforeach
                                         </td>
-                                        <td class="whitespace-nowrap px-6 py-4 flex items-center gap-2">
+                                        <td class="whitespace-nowrap px-6 py-14 flex items-center gap-2">
                                             <a href="{{ route("media.edit", $media) }}" class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Edit</a>
                                             @can('edit', $media)
                                             <form action="{{ route('media.destroy', $media) }}" method="POST">
